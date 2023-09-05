@@ -1,0 +1,68 @@
+Note: This is not a tutorial on how to update a skin.  It's pretty much my notes on what will eventually have to
+go into a tutorial.  Therefore, there's probably things missing.  We'll be working on a real tutorial.
+Optional additions to listings.tpl for stories:
+
+{toc} - Table of Contents link to story index 
+{count} - The view/read count
+{new} - The text "New!" for new stories or alternately a graphic (use the URL to the graphic from the main directory).
+{featuredtext} - The words "Featured Story" or "Past Featured Story" to use instead of the graphics if you wish
+
+This is already done for you in the default_tpls folder.
+
+Also in listings.tpl you will need to add {comment} to both the seriesblock and storyblock sections.  This 
+will be used for favorite stories to show the member's comments about the story. Style the comment with
+favcomment.tpl.  See the default_tpls folder for an example. 
+
+In viewstory.tpl optional addtion:
+
+{toc} - Table of Contents link to story index
+
+The story and chapter notes (beginning and end) have been moved into blocks in viewstory.tpl  This will let you
+style them any way you wish and also hide those blocks when there are no notes to display.  (See the default_tpls
+for an example)
+
+For any new classifications you add you will need to modify listings.tpl, series_title.tpl, and optionally 
+viewstory.tpl and storyindex.tpl to include those additional classifications.  Optionally, you can use {classifications}
+to include all your classifications at one time.  The default_tpls/listings.tpl uses {classifications}
+
+In reviews.tpl you can now add a quick review form to the bottom of the list of reviews instead of the 
+"Submit a Review" link using the {reviewform} variable.  Already done in default_tpls.
+
+The reviewsblock has been pulled into its own .tpl so it can be reused in places other than the reviews page 
+(such as the user panels)
+
+The profile section of the user page has been pulled into its own .tpl, again so that it can be re-used.  
+It should also make it easier for people modding skins.  There is also now a setting in your admin settings for
+whether or not to show the profile at the top of the view user page all the time or only when it's selected.
+
+In user.tpl you no longer have individual variables for the tabs.  Instead it's been put into a block to 
+allow more tabs to be added dynamically without editing the tpl's each time.
+
+<!-- START BLOCK : paneltabs -->
+<div {class}>{link} {count}</div>
+<!-- END BLOCK : paneltabs -->
+
+You can also use {linkcount} to include the count of items inside the link instead of next to it. You don't have 
+to use <div>'s.  This is just an example.
+
+Rather than have the news archive link hardcoded into the news block at the bottom, I've assigned it to a global 
+link (i.e. {home}) so that you can put it where you want.  It's assigned as {newsarchive}
+
+There are a large number of new links you can add to your skins and the menu block.  The list is in the "Page 
+Links" section of the admin panel.
+
+In default_tpls, we changed the "classification" CSS class to "label".  It's more clear what the purpose is
+and shorter. :)
+
+For the new profile block, if you add new fields to the profile information, you will need to either add the 
+individual links such as {yahoo} or remove the individual links and make use of the new {authorfields} variable
+that displays the complete list of custom fields.  If you're creating skins for the use of others, you're 
+encouraged to use {authorfields} instead of the individual links.
+
+The $current variable for the index page was changed to home to solve a conflict with the variable name for the
+pagelink.  This will affect skins like Romance that use the current setting as the name of a containing div.
+
+For the featured, recent, and random blocks, if you use the .tpl option you'll need to remove the name of the 
+block from each of the variables.  For instance {recenttitle} will now be {title}.  This is because each of
+these blocks now uses the storyblock.php code.  Therefore, you can also add any of the information you can
+use in the listings.tpl to your random, featured, and recent blocks. 
