@@ -554,7 +554,7 @@ function editchapter( $chapid ) {
 			if($admin && $logging && USERUID != $uid) {
 				$storyinfo = dbquery("SELECT story.title, story.sid, chapter.uid, chapter.inorder, "._PENNAMEFIELD." as penname FROM ".TABLEPREFIX."fanfiction_stories as story, ".TABLEPREFIX."fanfiction_chapters as chapter, "._AUTHORTABLE." WHERE "._UIDFIELD." = chapter.uid AND story.sid = chapter.sid AND chapter.chapid = $chapid");
 				list($title, $sid, $chapuid, $inorder, $chappenname) = dbrow($storyinfo);
-				dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`) VALUES('".escapestring(sprintf(_LOG_ADMIN_EDIT_CHAPTER, USERPENNAME, USERUID, $title, $sid, $chappenname, $chapuid, $inorder))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'ED')");
+				dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`, `log_timestamp`) VALUES('".escapestring(sprintf(_LOG_ADMIN_EDIT_CHAPTER, USERPENNAME, USERUID, $title, $sid, $chappenname, $chapuid, $inorder))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'ED', " . time() . ")");
 			}
 			unset($_POST['submit']);
 			$output = write_message(_STORYUPDATED).editstory($sid);
@@ -694,7 +694,7 @@ function editstory($sid) {
 						list($oldpenname) = dbrow($authorquery);
 						$author2query = dbquery("SELECT "._PENNAMEFIELD." as penname FROM "._AUTHORTABLE." WHERE "._UIDFIELD." = '$uid' LIMIT 1");
 						list($newpenname) = dbrow($author2query);
-						dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`) VALUES('".escapestring(sprintf(_LOG_ADMIN_EDIT_AUTHOR, USERPENNAME, USERUID, $title, $sid, $newpenname, $uid, $oldpenname, $olduid))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'ED')");
+						dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`, `log_timestamp`) VALUES('".escapestring(sprintf(_LOG_ADMIN_EDIT_AUTHOR, USERPENNAME, USERUID, $title, $sid, $newpenname, $uid, $oldpenname, $olduid))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'ED', " . time() . ")");
 					}
 				}
 
@@ -814,7 +814,7 @@ function editstory($sid) {
 				if(USERUID != $uid) { // If you're editing your own story, don't log it.
 					$authorquery = dbquery("SELECT "._PENNAMEFIELD." as penname FROM "._AUTHORTABLE." WHERE "._UIDFIELD." = '$uid' LIMIT 1");
 					list($penname) = dbrow($authorquery);
-					dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`) VALUES('".escapestring(sprintf(_LOG_ADMIN_EDIT, USERPENNAME, USERUID, $title, $sid, $penname, $uid))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'ED')");
+					dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`, `log_timestamp`) VALUES('".escapestring(sprintf(_LOG_ADMIN_EDIT, USERPENNAME, USERUID, $title, $sid, $penname, $uid))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'ED', " . time() . ")");
 				}
 			}
 			$output .= write_message(_STORYUPDATED."  ".($admin ? _BACK2ADMIN : _BACK2ACCT));
@@ -926,7 +926,7 @@ function delete( ) {
 			if($logging && $admin) {
 				$authorquery = dbquery("SELECT "._PENNAMEFIELD." as penname FROM "._AUTHORTABLE." WHERE "._UIDFIELD." = '$uid' LIMIT 1");
 				list($penname) = dbrow($authorquery);
-				dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`) VALUES('".escapestring(sprintf(_LOG_ADMIN_DEL_CHAPTER, USERPENNAME, USERUID, $story['title'], $sid, $penname, $uid, $inorder))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'DL')");
+				dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`, `log_timestamp`) VALUES('".escapestring(sprintf(_LOG_ADMIN_DEL_CHAPTER, USERPENNAME, USERUID, $story['title'], $sid, $penname, $uid, $inorder))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'DL', " . time() . ")");
 			}
 			return "<center>"._ACTIONSUCCESSFUL."</center>".editstory( $sid );
 		}
