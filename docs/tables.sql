@@ -66,7 +66,7 @@ CREATE TABLE `fanfiction_authors` (
   `website` varchar(200) NOT NULL default '',
   `bio` text NOT NULL,
   `image` varchar(200) NOT NULL default '',
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `date`  int(11) NOT NULL default '0',
   `admincreated` int(11) NOT NULL default '0',
   `password` varchar(40) NOT NULL default '0',
   PRIMARY KEY  (`uid`),
@@ -222,7 +222,7 @@ CREATE TABLE `fanfiction_comments` (
   `nid` int(11) NOT NULL default '0',
   `uid` int(11) NOT NULL default '0',
   `comment` text NOT NULL,
-  `time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `time` int(11) NOT NULL default '0',
   PRIMARY KEY  (`cid`),
   KEY `commentlist` (`nid`,`time`)
 ) REPLACE=MyISAM;
@@ -254,7 +254,7 @@ CREATE TABLE `fanfiction_inseries` (
   `subseriesid` int(11) NOT NULL default '0',
   `confirmed` int(11) NOT NULL default '0',
   `inorder` int(11) NOT NULL default '0',
-  `updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated` int(11) NOT NULL default '0',
   PRIMARY KEY  (`sid`,`seriesid`),
   KEY `seriesid` (`seriesid`,`inorder`)
 ) REPLACE=MyISAM;
@@ -270,7 +270,7 @@ CREATE TABLE `fanfiction_log` (
   `log_action` varchar(255) default NULL,
   `log_uid` int(11) NOT NULL default '0',
   `log_ip` int(11) default NULL,
-  `log_timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `log_timestamp` int(11) NOT NULL default '0',
   `log_type` char(2) NOT NULL default '',
   PRIMARY KEY  (`log_id`)
 ) REPLACE=MyISAM;
@@ -384,7 +384,7 @@ CREATE TABLE `fanfiction_reviews` (
   `reviewer` varchar(60) NOT NULL default '0',
   `uid` int(11) NOT NULL default '0',
   `review` text NOT NULL,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `date` int(11) NOT NULL default '0',
   `rating` int(11) NOT NULL default '0',
   `respond` char(1) NOT NULL default '0',
   `type` char(2) NOT NULL default 'ST',
@@ -456,8 +456,8 @@ CREATE TABLE `fanfiction_stories` (
   `classes` varchar(200) default NULL,
   `charid` varchar(250) NOT NULL default '0',
   `rid` varchar(25) NOT NULL default '0',
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  `date` int(11) NOT NULL default '0',
+  `updated` int(11) NOT NULL default '0',
   `uid` int(11) NOT NULL default '0',
   `coauthors` varchar(200) default NULL,
   `featured` tinyint(4) NOT NULL default '0',
