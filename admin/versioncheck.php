@@ -26,62 +26,17 @@
 if(!defined("_CHARSET")) exit( );
 
 
+	$currentversion = "3.5.6";
 
 	$output .= "<div id=\"pagetitle\">"._VERSIONCHECK."</div>";
 
-	// make sure curl is installed
-	if (function_exists('curl_init')) {
-		$output .= write_message(_RUNNINGVERSION);
-	   // initialize a new curl resource
-	   $ch = curl_init();
+ 
+	 $output .= write_message(_CURRENTVERSION. "$currentversion");
 
-	   // set the url to fetch
-	   curl_setopt($ch, CURLOPT_URL, 'http://www.efiction.org/version.txt');
-
-	   // don't give me the headers just the content
-	   curl_setopt($ch, CURLOPT_HEADER, 0);
-
-	   // return the value instead of printing the response to browser
-	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-	   // use a user agent to mimic a browser
-	   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0');
-
-	   $content = curl_exec($ch);
-	   $currentversion = $content;
-				$output .= write_message(_CURRENTVERSION. "$currentversion");
-
-				if ($currentversion != $version) {
-				$output .= write_message (_UPDATEVERSION);
-				}
-				else $output .= write_message (_UPTODATE);
-
-	   // remember to always close the session and free all resources
-	   curl_close($ch);
+	if ($currentversion != $version) {
+	$output .= write_message (_UPDATEVERSION);
 	}
-
-	else if(ini_get("allow_url_fopen")) {
-		$output .= write_message(_RUNNINGVERSION);
-
-		$location = fopen ("http://efiction.org/version.txt", "r");
-		$buffer = '';
-		while (!feof ($location)) {
-			$buffer .= fgets($location, 4096);
-		}
-		fclose ($location);
-
-		if ($buffer != '') {
-			$currentversion = $buffer;
-			$output .= write_message(_CURRENTVERSION. "$currentversion");
-
-			if ($currentversion != $version) {
-			$output .= write_message (_UPDATEVERSION);
-			}
-			else $output .= write_message (_UPTODATE);
-		}
-	}
-	else {	
-		$output .= write_message(_VERSIONNOTALLOWED);
-	}
+	else $output .= write_message (_UPTODATE);
+ 
 
 ?>
