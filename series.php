@@ -139,7 +139,7 @@ if($add == "series" || ($action == "add" && !$add) || $action == "edit") {
 		}
 	}
 	else {
-	$output = "<div id=\"pagetitle\">".($action == "edit" ? _EDITSERIES : $add == "stories" ? _ADD2SERIES : _ADDSERIES)."</div>
+	$output = "<div id=\"pagetitle\">".($action == "edit" ? _EDITSERIES : ($add == "stories" ? _ADD2SERIES : _ADDSERIES))."</div>
 <form METHOD=\"POST\" style='width: 90%; margin: 0 auto;' name=\"form\" action=\"series.php?action=$action&amp;add=".(!empty($add) ? $add : "series").(!empty($seriesid) ? "&amp;seriesid=$seriesid" : "")."\">";
 	if($action == "edit" && !isset($POST['submit'])) {
 		$seriesquery = dbquery(_SERIESQUERY." AND seriesid = '$seriesid' LIMIT 1");
@@ -251,7 +251,7 @@ if($add == "stories") {
 		$output .= write_message(_ACTIONSUCCESSFUL);
 	}
 	else {
-		$output = "<div id=\"pagetitle\">".($action == "edit" ? _EDITSERIES : $add == "stories" ? _ADD2SERIES : _ADDSERIES)."</div>
+		$output = "<div id=\"pagetitle\">".($action == "edit" ? _EDITSERIES : ($add == "stories" ? _ADD2SERIES : _ADDSERIES))."</div>
 			<form METHOD=\"POST\" style='width: 90%; margin: 0 auto;' name=\"form\" action=\"series.php?action=$action&amp;add=".(!empty($add) ? $add : "series").(!empty($seriesid) ? "&amp;seriesid=$seriesid" : "")."\">";
 		$output .= "<input type=\"hidden\" name=\"seriesid\" value=\"$seriesid\">";
 		$series = dbquery("SELECT title, uid, isopen FROM ".TABLEPREFIX."fanfiction_series WHERE seriesid = '$seriesid' LIMIT 1");
