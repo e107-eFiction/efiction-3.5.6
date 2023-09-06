@@ -31,7 +31,7 @@ if(!defined("_CHARSET")) exit( );
 		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET featured = 0 WHERE sid = ".$_GET['remove']);
 	if(isset($_GET['feature']))
 		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET featured = 1 WHERE sid = ".$_GET['feature']);
-	$fresult = dbquery("SELECT stories.*, stories.title as title, "._PENNAMEFIELD." as penname, UNIX_TIMESTAMP(stories.updated) as updated, UNIX_TIMESTAMP(stories.date) as date FROM "._AUTHORTABLE.", ".TABLEPREFIX."fanfiction_stories as stories WHERE stories.featured > 0 AND stories.uid = "._UIDFIELD." ORDER BY stories.featured");
+	$fresult = dbquery("SELECT stories.*, stories.title as title, "._PENNAMEFIELD." as penname, stories.updated as updated, stories.date as date FROM "._AUTHORTABLE.", ".TABLEPREFIX."fanfiction_stories as stories WHERE stories.featured > 0 AND stories.uid = "._UIDFIELD." ORDER BY stories.featured");
 	$output .= "<div id='pagetitle'>"._FEATUREDSTORIES."</div>";
 	if(!dbnumrows($fresult)) $output .= write_message(_NORESULTS);
 	else {

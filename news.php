@@ -53,7 +53,7 @@ if($nid) {
 		$insert = dbquery("DELETE FROM ".TABLEPREFIX."fanfiction_comments WHERE cid = '$cid'");
 		if($insert) dbquery("UPDATE ".TABLEPREFIX."fanfiction_news SET comments = comments - 1 WHERE nid = '$nid' LIMIT 1");
 	}
-	$newsquery = dbquery("SELECT n.*, UNIX_TIMESTAMP(n.time) as date FROM ".TABLEPREFIX."fanfiction_news as n WHERE n.nid = '$nid' LIMIT 1");
+	$newsquery = dbquery("SELECT n.*, n.time as date FROM ".TABLEPREFIX."fanfiction_news as n WHERE n.nid = '$nid' LIMIT 1");
 	$stories = dbassoc($newsquery);
 	if(file_exists("./$skindir/newsbox.tpl"))
 		$news = new TemplatePower( "./$skindir/newsbox.tpl" );
@@ -79,7 +79,7 @@ if($nid) {
 	$cquery = dbquery("SELECT COUNT(cid) FROM ".TABLEPREFIX."fanfiction_comments WHERE nid = '$nid'");
 	list($ccount) = dbrow($cquery);
 	if($ccount) {
-		$query2 = dbquery("SELECT c.*, "._PENNAMEFIELD." as penname, UNIX_TIMESTAMP(c.time) as date FROM ".TABLEPREFIX."fanfiction_comments as c LEFT JOIN "._AUTHORTABLE." ON c.uid = "._UIDFIELD." WHERE c.nid = '$nid' ORDER BY time LIMIT $offset, $itemsperpage");
+		$query2 = dbquery("SELECT c.*, "._PENNAMEFIELD." as penname, c.time as date FROM ".TABLEPREFIX."fanfiction_comments as c LEFT JOIN "._AUTHORTABLE." ON c.uid = "._UIDFIELD." WHERE c.nid = '$nid' ORDER BY time LIMIT $offset, $itemsperpage");
 		$output .= "<div class=\"sectionheader\">"._COMMENTS."</div>";
 		if(file_exists("$skindir/comments.tpl")) $c = new TemplatePower( "$skindir/comments.tpl" );
 		else $c = new TemplatePower( "default_tpls/comments.tpl" );
@@ -121,7 +121,7 @@ else {
 	$news->prepare( );
 	$cquery = dbquery("SELECT count(nid) FROM ".TABLEPREFIX."fanfiction_news");
 	list($count) = dbrow($cquery);
-	$newsquery = dbquery("SELECT n.*, UNIX_TIMESTAMP(n.time) as date FROM ".TABLEPREFIX."fanfiction_news as n ORDER BY n.time DESC LIMIT $offset, $itemsperpage");
+	$newsquery = dbquery("SELECT n.*, n.time as date FROM ".TABLEPREFIX."fanfiction_news as n ORDER BY n.time DESC LIMIT $offset, $itemsperpage");
 	$counter = 0;
 	while($stories = dbassoc($newsquery)) {
 

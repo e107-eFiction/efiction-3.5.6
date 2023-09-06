@@ -63,7 +63,7 @@ if($poll) {
 }
 else {
 	$output .= "<div id='pagetitle'>"._POLLARCHIVE."</div>";
-	$listquery = dbquery("SELECT poll_id, poll_question, UNIX_TIMESTAMP(poll_start) as start, UNIX_TIMESTAMP(poll_end) as end FROM ".TABLEPREFIX."fanfiction_poll WHERE poll_end IS NOT NULL OR poll_end != '0000-00-00 00:00:00' ORDER BY poll_id DESC");
+	$listquery = dbquery("SELECT poll_id, poll_question, poll_startas start, poll_end as end FROM ".TABLEPREFIX."fanfiction_poll WHERE poll_end IS NOT NULL OR poll_end != '0000-00-00 00:00:00' ORDER BY poll_id DESC");
 	if(dbnumrows($listquery) > 0) {
 		$output .= "<table class='tblborder' style='margin: 1em auto;'><tr><th class='tblborder'>"._POLLARCHQUESTION."</th><th class='tblborder'>"._START."</th><th class='tblborder'>"._END."</th></tr>";
 		while($poll = dbassoc($listquery)) {

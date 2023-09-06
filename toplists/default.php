@@ -42,7 +42,7 @@ if(!defined("_CHARSET")) exit( );
 			}
 			break;
 		case "favstories":
-			$result = dbquery("SELECT count( fav.item ) AS count, stories.*, "._PENNAMEFIELD." as penname, UNIX_TIMESTAMP(stories.date) as date, UNIX_TIMESTAMP(stories.updated) as updated FROM ".TABLEPREFIX."fanfiction_favorites AS fav, "._AUTHORTABLE.", ".TABLEPREFIX."fanfiction_stories as stories WHERE stories.uid = "._UIDFIELD." AND stories.validated > 0 AND fav.item = stories.sid AND fav.type = 'ST' GROUP  BY stories.sid ORDER  BY count DESC LIMIT 10");
+			$result = dbquery("SELECT count( fav.item ) AS count, stories.*, "._PENNAMEFIELD." as penname, stories.date as date, stories.updated as updated FROM ".TABLEPREFIX."fanfiction_favorites AS fav, "._AUTHORTABLE.", ".TABLEPREFIX."fanfiction_stories as stories WHERE stories.uid = "._UIDFIELD." AND stories.validated > 0 AND fav.item = stories.sid AND fav.type = 'ST' GROUP  BY stories.sid ORDER  BY count DESC LIMIT 10");
 			if(dbnumrows($result) == 0) $output .= write_message(_NORESULTS);
 			$tpl->newBlock("listings");
 			while($stories = dbassoc($result)) { 

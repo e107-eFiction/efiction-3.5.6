@@ -81,7 +81,7 @@ if(empty($favorites)) accessDenied( );
 		}
 	}
 	else if(!isset($_POST['submit'])) {
-		$storyquery = "SELECT stories.*, "._PENNAMEFIELD." as penname, fav.comments as comments,  UNIX_TIMESTAMP(stories.date) as date, UNIX_TIMESTAMP(stories.updated) as updated FROM ".TABLEPREFIX."fanfiction_stories as stories, ".TABLEPREFIX."fanfiction_favorites as fav, "._AUTHORTABLE." WHERE fav.uid = '$uid' AND fav.type = 'ST' AND stories.uid = "._UIDFIELD." AND fav.item = stories.sid "._ORDERBY;
+		$storyquery = "SELECT stories.*, "._PENNAMEFIELD." as penname, fav.comments as comments,  stories.date as date, stories.updated as updated FROM ".TABLEPREFIX."fanfiction_stories as stories, ".TABLEPREFIX."fanfiction_favorites as fav, "._AUTHORTABLE." WHERE fav.uid = '$uid' AND fav.type = 'ST' AND stories.uid = "._UIDFIELD." AND fav.item = stories.sid "._ORDERBY;
 		$countquery = dbquery("SELECT COUNT(item) FROM ".TABLEPREFIX."fanfiction_favorites WHERE uid = '$uid' AND type = 'ST' GROUP BY uid");
 		list($storycount) = dbrow($countquery);
 		if($storycount) {

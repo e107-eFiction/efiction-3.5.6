@@ -26,7 +26,7 @@ if(!defined("_CHARSET")) exit( );
 
 // Build the user's profile information
 $tpl->newBlock("profile");
-$result2 = dbquery("SELECT *, UNIX_TIMESTAMP(date) as date FROM "._AUTHORTABLE." LEFT JOIN ".TABLEPREFIX."fanfiction_authorprefs as ap ON ap.uid = "._UIDFIELD." WHERE "._UIDFIELD." = '$uid' LIMIT 1");
+$result2 = dbquery("SELECT *, date as date FROM "._AUTHORTABLE." LEFT JOIN ".TABLEPREFIX."fanfiction_authorprefs as ap ON ap.uid = "._UIDFIELD." WHERE "._UIDFIELD." = '$uid' LIMIT 1");
 $userinfo = dbassoc($result2);
 $nameinfo = "";
 if($userinfo['email'])

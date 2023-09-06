@@ -46,7 +46,7 @@ if(!defined("_CHARSET")) exit( );
 	else {
 		$reviewid = isset($_GET['reviewid']) && isNumber($_GET['reviewid']) ? $_GET['reviewid'] : false;
 		if(!$reviewid) accessDenied( );
-		$result = dbquery("SELECT review.*, UNIX_TIMESTAMP(review.date) as date FROM ".TABLEPREFIX."fanfiction_reviews as review LEFT JOIN ".TABLEPREFIX."fanfiction_authors as member ON member.uid = review.uid WHERE review.reviewid = '$reviewid' LIMIT 1");
+		$result = dbquery("SELECT review.*, review.date as date FROM ".TABLEPREFIX."fanfiction_reviews as review LEFT JOIN ".TABLEPREFIX."fanfiction_authors as member ON member.uid = review.uid WHERE review.reviewid = '$reviewid' LIMIT 1");
 		$reviews = dbassoc($result);
 		if(!empty($reviews['respond'])) {
 			$tpl->assign("output", write_message(_ALREADYRESPONDED));

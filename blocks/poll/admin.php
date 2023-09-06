@@ -24,7 +24,7 @@ include("blocks/".$blocks['poll']['file']);
 			$n = $num + 1;
 			$final .= (isset($results[$n]) ? $results[$n] : "0");
 		}
-		$closepoll =dbquery("UPDATE ".TABLEPREFIX."fanfiction_poll SET poll_results = '$final', poll_end = NOW( ) WHERE poll_id = '".$currentpoll['poll_id']."'");
+		$closepoll =dbquery("UPDATE ".TABLEPREFIX."fanfiction_poll SET poll_results = '$final', poll_end = '" . time() . "' WHERE poll_id = '".$currentpoll['poll_id']."'");
 		if($closepoll) $emptyvotes = dbquery("TRUNCATE TABLE `".TABLEPREFIX."fanfiction_poll_votes`");
 		$output .= write_message(_ACTIONSUCCESSFUL);
 	}
@@ -36,7 +36,7 @@ include("blocks/".$blocks['poll']['file']);
 			if(strlen(trim(preg_replace("!&nbsp;!", " ", $opt))) > 0) $new_opts[] = $opt;
 		}
 		$new_opts = escapestring(implode("|#|", $new_opts));
-		$newpoll = dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_poll(`poll_question`, `poll_opts`, `poll_start`) VALUES('$poll_question', '$new_opts', NOW( ))");
+		$newpoll = dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_poll(`poll_question`, `poll_opts`, `poll_start`) VALUES('$poll_question', '$new_opts', '" . time() . "')");
 		include("blocks/".$blocks['poll']['file']);
 		$output .= "<div style='text-align: center;'><b>"._CURRENT.":</b><br /><div class=\"tblborder\" style=\"width: 200px; margin: 0 auto; text-align: left;\">$content</div><br /></div>";
 	}

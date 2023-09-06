@@ -80,7 +80,7 @@ function preview_story($stories) {
 		if(uLEVEL == 1 || (empty($admincats) || sizeof(array_intersect(explode(",", $catid), explode(",", $admincats))))) {
 			include("includes/emailer.php");
 			if(!$storyvalid) {
-				dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET validated = '1', updated = NOW() WHERE sid = '$_GET[sid]'");
+				dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET validated = '1', updated = '" . time() . "' WHERE sid = '$_GET[sid]'");
 				foreach(explode(",", $catid) as $cat) {
 					categoryitems($cat, 1);
 				}
@@ -125,7 +125,7 @@ function preview_story($stories) {
 				if($logging) dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_log (`log_action`, `log_uid`, `log_ip`, `log_type`, `log_timestamp`) VALUES('".escapestring(sprintf(_LOG_VALIDATE_CHAPTER, USERPENNAME, USERUID, $title, $sid, $author, $authoruid, $inorder))."', '".USERUID."', INET_ATON('".$_SERVER['REMOTE_ADDR']."'), 'VS', " . time() . ")");
 			}
 			dbquery("UPDATE ".TABLEPREFIX."fanfiction_chapters SET validated = '1' WHERE chapid = '$_GET[chapid]'");
-			dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET updated = NOW( ) WHERE sid = '$sid'");
+			dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET updated = '" . time() . "' WHERE sid = '$sid'");
 			$count =  dbquery("SELECT SUM(wordcount) as totalcount FROM ".TABLEPREFIX."fanfiction_chapters WHERE sid = '$sid' and validated = 1");
 			list($totalcount) = dbrow($count);
 			if($totalcount) {
@@ -142,7 +142,7 @@ function preview_story($stories) {
 	}
 	else {
 		if(isNumber($_GET['chapid'])) {
-			$result = dbquery("SELECT stories.*, stories.title as title, "._PENNAMEFIELD." as penname, UNIX_TIMESTAMP(stories.updated) as updated, UNIX_TIMESTAMP(stories.date) as date, chapter.uid as uid, chapter.inorder, chapter.title as chaptertitle, chapter.storytext, chapter.chapid, chapter.notes, chapter.endnotes FROM "._AUTHORTABLE.", ".TABLEPREFIX."fanfiction_stories as stories, ".TABLEPREFIX."fanfiction_chapters as chapter WHERE chapter.chapid = '$_GET[chapid]' AND chapter.sid = stories.sid AND chapter.uid = "._UIDFIELD);
+			$result = dbquery("SELECT stories.*, stories.title as title, "._PENNAMEFIELD." as penname, stories.updated as updated, stories.date as date, chapter.uid as uid, chapter.inorder, chapter.title as chaptertitle, chapter.storytext, chapter.chapid, chapter.notes, chapter.endnotes FROM "._AUTHORTABLE.", ".TABLEPREFIX."fanfiction_stories as stories, ".TABLEPREFIX."fanfiction_chapters as chapter WHERE chapter.chapid = '$_GET[chapid]' AND chapter.sid = stories.sid AND chapter.uid = "._UIDFIELD);
 			$stories = dbassoc($result);
 			$output .= preview_story($stories);
 

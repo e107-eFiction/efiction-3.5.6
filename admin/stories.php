@@ -31,7 +31,7 @@ function featured( ) {
 		mysql_query("UPDATE ".TABLEPREFIX."fanfiction_stories SET featured = 2 WHERE sid = ".$_GET['retire']);
 	if($_GET['feature'])
 		mysql_query("UPDATE ".TABLEPREFIX."fanfiction_stories SET featured = 1 WHERE sid = ".$_GET['feature']);
-	$fquery = "SELECT stories.*, stories.title as title, author.penname, DATE_FORMAT(stories.updated, '%Y.%m.%d') as updatesort, DATE_FORMAT(stories.date, '$datim') as date, DATE_FORMAT(stories.updated, '$datim') as updated FROM ".TABLEPREFIX."fanfiction_authors as author, ".TABLEPREFIX."fanfiction_stories as stories WHERE stories.featured > 0 AND stories.uid = author.uid ORDER BY stories.featured";
+	$fquery = "SELECT stories.*, stories.title as title, author.penname, DATE_FORMAT(FROM_UNIXTIME(stories.updated), '%Y.%m.%d') as updatesort, DATE_FORMAT(stories.date, '$datim') as date, DATE_FORMAT(FROM_UNIXTIME(stories.updated), '$datim') as updated FROM ".TABLEPREFIX."fanfiction_authors as author, ".TABLEPREFIX."fanfiction_stories as stories WHERE stories.featured > 0 AND stories.uid = author.uid ORDER BY stories.featured";
 	$fresult = mysql_query($fquery) or die(_FATALERROR."Query: ".$fquery."<br />Error: (".mysql_errno( ).") ".mysql_error( ));
 	$output .= "<center><table class=\"tblborder\" cellpadding=\"5\"><tr><th colspan=\"2\" align=\"center\">"._FEATUREDSTORIES."</th></tr>";
 	if(!mysql_num_rows($fresult)) $output .= "<tr><td colspan=\"2\" align=\"center\">"._NOSTORIES."</td><tr>";
@@ -83,7 +83,7 @@ function validate( ) {
 		if($admincats == "0" || sizeof(array_intersect(explode(",", $catid), explode(",", $admincats)))) {
 			include("includes/emailer.php");
 			if($validated != "1") {
-				mysql_query("UPDATE ".TABLEPREFIX."fanfiction_stories SET validated = '1', updated = NOW() WHERE sid = '".$_GET['sid']."'");
+				mysql_query("UPDATE ".TABLEPREFIX. "fanfiction_stories SET validated = '1', updated = '".time()."' WHERE sid = '".$_GET['sid']."'");
 				$categories = explode(",", $catid);
 				include("functions.php");
 				foreach($categories as $cat) {
@@ -107,7 +107,7 @@ function validate( ) {
 				}
 			}
 			mysql_query("UPDATE ".TABLEPREFIX."fanfiction_chapters SET validated = '1' WHERE chapid = '".$_GET['chapid']."'");
-			mysql_query("UPDATE ".TABLEPREFIX."fanfiction_stories SET updated = NOW( ) WHERE sid = '$sid'");
+			mysql_query("UPDATE ".TABLEPREFIX."fanfiction_stories SET updated = '" . time() . "' WHERE sid = '$sid'");
 			$output .= "<center><b>"._STORYVALIDATED."</b></center>";
 		}
 		else

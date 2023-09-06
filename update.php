@@ -71,20 +71,20 @@ if ($oldVersion[0] == 3 && ($oldVersion[1] < 5 || $oldVersion[2] < 6))  //3.5.5
 				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_authors` DROP `date_tmp`");
 			}
 			/****************************************************************************************************************/
-			$tmp = dbassoc(dbquery("SHOW COLUMNS FROM " . TABLEPREFIX . "fanfiction_log LIKE 'date'"));
- 
+			$tmp = dbassoc(dbquery("SHOW COLUMNS FROM " . TABLEPREFIX . "fanfiction_log LIKE 'log_timestamp'"));
+
 			if ($tmp['Type'] == "datetime")
 			{ 
-				$updated = dbassoc(dbquery("SHOW COLUMNS FROM " . TABLEPREFIX . "fanfiction_log LIKE 'date_tmp'"));
+				$updated = dbassoc(dbquery("SHOW COLUMNS FROM " . TABLEPREFIX . "fanfiction_log LIKE 'log_timestamp_tmp'"));
 				if (!$updated)
 				{
-					dbquery("ALTER TABLE 	`" . TABLEPREFIX . "fanfiction_log` ADD `date_tmp` int(11) NOT NULL default '0'");
+					dbquery("ALTER TABLE 	`" . TABLEPREFIX . "fanfiction_log` ADD `log_timestamp_tmp` int(11) NOT NULL default '0'");
 				}
 
-				dbquery("UPDATE 		`" . TABLEPREFIX . "fanfiction_log` SET `date_tmp` = UNIX_TIMESTAMP( `log_timestamp` )");
+				dbquery("UPDATE 		`" . TABLEPREFIX . "fanfiction_log` SET `log_timestamp_tmp` = UNIX_TIMESTAMP( `log_timestamp` )");
 				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_log` CHANGE `log_timestamp` `log_timestamp` INT NOT NULL");
-				dbquery("UPDATE `" . TABLEPREFIX . "fanfiction_log` set log_timestamp = date_tmp");
-				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_log` DROP `date_tmp`");
+				dbquery("UPDATE `" . TABLEPREFIX . "fanfiction_log` set log_timestamp = log_timestamp_tmp");
+				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_log` DROP `log_timestamp_tmp`");
 			}
 			/****************************************************************************************************************/
 			/* fanfiction_comments   `time` datetime NOT NULL default '0000-00-00 00:00:00'  */
@@ -150,7 +150,24 @@ if ($oldVersion[0] == 3 && ($oldVersion[1] < 5 || $oldVersion[2] < 6))  //3.5.5
 				dbquery("UPDATE `" . TABLEPREFIX . "fanfiction_stories` set updated = updated_tmp");
 				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_stories` DROP `updated_tmp`");
 			}
+
+			/****************************************************************************************************************/
+			/* fanfiction_news `time` datetime default NULL,  */
+			$tmp = dbassoc(dbquery("SHOW COLUMNS FROM " . TABLEPREFIX . "fanfiction_news LIKE 'time'"));
 			
+			if ($tmp['Type'] == "datetime")
+			{		
+				$updated = dbassoc(dbquery("SHOW COLUMNS FROM " . TABLEPREFIX . "fanfiction_news LIKE 'time_tmp'"));
+				if (!$updated)
+				{
+					dbquery("ALTER TABLE 	`" . TABLEPREFIX . "fanfiction_news` ADD `time_tmp` int(11) NOT NULL default '0'");
+				}
+
+				dbquery("UPDATE 		`" . TABLEPREFIX . "fanfiction_news` SET `time_tmp` = UNIX_TIMESTAMP( `time` )");
+				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_news` CHANGE `time` `time` INT NOT NULL");
+				dbquery("UPDATE `" . TABLEPREFIX . "fanfiction_news` set time = time_tmp");
+				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_news` DROP `time_tmp`");
+			}
 		}
 		$update = dbquery("UPDATE " . $settingsprefix . "fanfiction_settings SET version = '" . $version . "' WHERE sitekey = '" . SITEKEY . "'");
 		if ($update) $output .= write_message(_ACTIONSUCCESSFUL);

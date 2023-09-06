@@ -33,7 +33,7 @@ if(!defined("_CHARSET")) exit( );
 	else include_once(_BASEDIR."blocks/news/en.php");
 
 	$news->prepare();
-	$newsquery = dbquery("SELECT nid, author, title, story, UNIX_TIMESTAMP(time) as date, comments FROM ".TABLEPREFIX."fanfiction_news ORDER BY time DESC LIMIT $numupdated");
+	$newsquery = dbquery("SELECT nid, author, title, story, time as date, comments FROM ".TABLEPREFIX."fanfiction_news ORDER BY time DESC LIMIT $numupdated");
 	$count = 0;
 	while($stories = dbassoc($newsquery)) {
 

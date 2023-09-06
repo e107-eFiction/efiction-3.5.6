@@ -187,7 +187,7 @@ switch ($_GET['step'])
 			else $fail =  write_message(_PASSWORDTWICE);
 			if (!isset($fail))
 			{
-				$result = dbquery("INSERT INTO " . $tableprefix . "fanfiction_authors(`penname`, `email`, `password`, `date`) VALUES('$penname', '" . $_POST['email'] . "', '$encryptpassword', now( ))");
+				$result = dbquery("INSERT INTO " . $tableprefix . "fanfiction_authors(`penname`, `email`, `password`, `date`) VALUES('$penname', '" . $_POST['email'] . "', '$encryptpassword', '" . time() . "')");
 				define("USERUID", dbinsertid());
 				$skinquery = dbquery("SELECT skin FROM " . $settingsprefix . "fanfiction_settings WHERE sitekey = '" . SITEKEY . "'");
 				list($skin) = dbrow($skinquery);

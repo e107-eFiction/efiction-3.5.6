@@ -308,7 +308,7 @@ else {
 			$jumpmenu .= "</select></form>";
 		}
 		$tpl->assign("jumpmenu", $jumpmenu );
-		$query = "SELECT review.reviewid, review.respond, review.review, review.uid, review.reviewer, review.rating, UNIX_TIMESTAMP(review.date) as date, series.title as seriestitle, stories.title as title FROM ".TABLEPREFIX."fanfiction_reviews as review LEFT JOIN ".TABLEPREFIX."fanfiction_series as series ON review.item = series.seriesid AND review.type = 'SE' LEFT JOIN ".TABLEPREFIX."fanfiction_stories as stories ON stories.sid = review.item AND review.type ='ST' WHERE 
+		$query = "SELECT review.reviewid, review.respond, review.review, review.uid, review.reviewer, review.rating, review.date as date, series.title as seriestitle, stories.title as title FROM ".TABLEPREFIX."fanfiction_reviews as review LEFT JOIN ".TABLEPREFIX."fanfiction_series as series ON review.item = series.seriesid AND review.type = 'SE' LEFT JOIN ".TABLEPREFIX."fanfiction_stories as stories ON stories.sid = review.item AND review.type ='ST' WHERE 
 			((series.seriesid = '$item' AND series.seriesid = review.item AND review.type = 'SE')".
 			(isset($storylist) ? " OR (FIND_IN_SET(review.item, '".(implode(",", $storieslist))."') > 0 AND review.type = 'ST')" : "").
 			(isset($serieslist) ? " OR (FIND_IN_SET(item, '".(implode(",", $serieslist))."') > 0 AND type = 'SE')" : "").
@@ -318,11 +318,11 @@ else {
 	}
 	else if($type == "ST") {
 		if(isset($chapid))  {
-			$query = "SELECT review.reviewid, review.respond, review.review, review.uid, review.reviewer, review.rating, UNIX_TIMESTAMP(date) as date, chapter.title as title, chapter.inorder as inorder FROM ".TABLEPREFIX."fanfiction_reviews as review, ".TABLEPREFIX."fanfiction_chapters as chapter WHERE chapter.chapid = '$chapid' AND chapter.chapid = review.chapid AND review.review != 'No Review' ";
+			$query = "SELECT review.reviewid, review.respond, review.review, review.uid, review.reviewer, review.rating, date as date, chapter.title as title, chapter.inorder as inorder FROM ".TABLEPREFIX."fanfiction_reviews as review, ".TABLEPREFIX."fanfiction_chapters as chapter WHERE chapter.chapid = '$chapid' AND chapter.chapid = review.chapid AND review.review != 'No Review' ";
 			$count =  "SELECT count(reviewid) FROM ".TABLEPREFIX."fanfiction_reviews as review WHERE chapid = '$chapid' AND review != 'No Review'";
 		}
 		else  {
-			$query = "SELECT review.reviewid, review.respond, review.review, review.uid, review.reviewer, review.rating, UNIX_TIMESTAMP(review.date) as date, chapter.title as title, chapter.inorder as inorder FROM ".TABLEPREFIX."fanfiction_reviews as review, ".TABLEPREFIX."fanfiction_chapters as chapter WHERE chapter.sid = '$item' AND chapter.chapid = review.chapid AND review.review != 'No Review' AND review.type = 'ST'";
+			$query = "SELECT review.reviewid, review.respond, review.review, review.uid, review.reviewer, review.rating, review.date as date, chapter.title as title, chapter.inorder as inorder FROM ".TABLEPREFIX."fanfiction_reviews as review, ".TABLEPREFIX."fanfiction_chapters as chapter WHERE chapter.sid = '$item' AND chapter.chapid = review.chapid AND review.review != 'No Review' AND review.type = 'ST'";
 			$count = "SELECT count(reviewid) FROM ".TABLEPREFIX."fanfiction_reviews as review WHERE item = '$item' AND review != 'No Review' AND type = 'ST'";
 		}
 		$jumpmenu = "<form name=\"jump\" action=\"\">";

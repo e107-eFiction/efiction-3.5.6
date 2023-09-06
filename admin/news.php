@@ -70,7 +70,7 @@ if(uLEVEL > 3) accessDenied();
 			$count = dbquery("SELECT COUNT(nid) FROM ".TABLEPREFIX."fanfiction_news");
 			list($numrows)= dbrow($count);
 	
-			$result = dbquery("SELECT n.*, UNIX_TIMESTAMP(n.time) as date, count(c.cid) as comments FROM ".TABLEPREFIX."fanfiction_news as n LEFT JOIN ".TABLEPREFIX."fanfiction_comments as c ON  n.nid = c.nid GROUP BY n.nid ORDER BY time DESC LIMIT $offset, $itemsperpage");
+			$result = dbquery("SELECT n.*, n.time as date, count(c.cid) as comments FROM ".TABLEPREFIX."fanfiction_news as n LEFT JOIN ".TABLEPREFIX."fanfiction_comments as c ON  n.nid = c.nid GROUP BY n.nid ORDER BY time DESC LIMIT $offset, $itemsperpage");
 			if(file_exists("$skindir/newsbox.tpl")) $news = new TemplatePower( "$skindir/newsbox.tpl" );
 			else $news = new TemplatePower( "default_tpls/newsbox.tpl" );
 			$news->prepare();
