@@ -784,7 +784,7 @@ CREATE TABLE IF NOT EXISTS `" . $tableprefix . "fanfiction_modules` (
   `date` int(11) NOT NULL default '0',
   `updated` int(11) NOT NULL default '0',
   `uid` int(11) NOT NULL default '0',
-  `coauthors` varchar(50) NOT NULL default '0',
+  `coauthors` tinyint(1) NOT NULL default '0',
   `featured` char(1) NOT NULL default '0',
   `validated` char(1) NOT NULL default '0',
   `completed` char(1) NOT NULL default '0',

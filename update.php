@@ -168,6 +168,9 @@ if ($oldVersion[0] == 3 && ($oldVersion[1] < 5 || $oldVersion[2] < 6))  //3.5.5
 				dbquery("UPDATE `" . TABLEPREFIX . "fanfiction_news` set time = time_tmp");
 				dbquery("ALTER TABLE `" . TABLEPREFIX . "fanfiction_news` DROP `time_tmp`");
 			}
+
+			/* todo */
+			/* ALTER TABLE `e107_fanfiction_stories` CHANGE `coauthors` `coauthors` TINYINT NOT NULL DEFAULT '0'; */
 		}
 		$update = dbquery("UPDATE " . $settingsprefix . "fanfiction_settings SET version = '" . $version . "' WHERE sitekey = '" . SITEKEY . "'");
 		if ($update) $output .= write_message(_ACTIONSUCCESSFUL);
