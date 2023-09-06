@@ -75,7 +75,7 @@ function preview_story($stories) {
 	$count = 0;
 	if(file_exists("$skindir/listings.tpl")) $tpl = new TemplatePower( "$skindir/listings.tpl" );
 	else $tpl = new TemplatePower("default_tpls/listings.tpl");
-	if(count($stories['coauthors']) > 0) $stories['coauthors'] = 1;
+	if(is_array($stories['coauthors']) && count($stories['coauthors']) > 0) $stories['coauthors'] = 1;
 	$tpl->prepare( );
 	$tpl->newBlock("listings");
 	$tpl->newBlock("storyblock");
