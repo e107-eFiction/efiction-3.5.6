@@ -63,8 +63,7 @@ function storyform($stories, $preview = 0){
 <div id='coauthorsDiv' name='coauthorsDiv' style='visibility: hidden;'></div>
 <iframe id='coauthorsshim' scr='' scrolling='no' frameborder='0' class='shim'></iframe>
 <div><label for='coauthorsSelected'>"._COAUTHORS.": <br /><select name='coauthorsSelected' id='coauthorsSelected' size='8' multiple='multiple' class='multiSelect' onclick='javascript: removeMember(\"coauthors\");'>";
-	//$couids = array() ;
-	$couids = '';
+	$couids = array() ;
 	if(is_array($stories['coauthors']) && count($stories['coauthors'])) {
 		$coauths = dbquery("SELECT "._PENNAMEFIELD." as penname, "._UIDFIELD." as uid FROM "._AUTHORTABLE." WHERE FIND_IN_SET("._UIDFIELD.", '".implode(",", $stories['coauthors'])."') > 0");
 		while($c = dbassoc($coauths)) {
