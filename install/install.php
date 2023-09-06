@@ -880,7 +880,7 @@ CREATE TABLE IF NOT EXISTS `" . $tableprefix . "fanfiction_modules` (
 		}
 		else
 		{
-			if ($_GET['install'])
+			if (isset($_GET['install']))
 			{
 				if ($_GET['install'] == "automatic")
 				{
