@@ -30,7 +30,7 @@ if(!defined("_CHARSET")) exit( );
 	if($multiplecats) {
 		$displaycolumns = $displaycolumns ? $displaycolumns : 1;
 		$query = "SELECT * FROM ".TABLEPREFIX."fanfiction_categories WHERE parentcatid = '-1' ORDER BY displayorder";
-		$result4 = dbquery($query) or die(_FATALERROR."Query: ".$query."<br />Error: (".mysql_errno( ).") ".mysql_error( ));
+		$result4 = dbquery($query) or die(_FATALERROR."Query: ".$query."<br />Error: (". $dbconnect->errno.") ". $dbconnect->error);
 		$total = dbnumrows($result4);
 		$count = 0;
 		$collist = array( );

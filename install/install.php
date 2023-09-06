@@ -971,13 +971,13 @@ CREATE TABLE IF NOT EXISTS `" . $tableprefix . "fanfiction_modules` (
 			$language = $_POST['language'];
 			$sitekey = descript($_POST['sitekey']);
 			$settingsprefix = descript($_POST['settingsprefix']);
-			$mysql_access = mysqli_connect($dbhost, $dbuser, $dbpass);
-			if (!$mysql_access)
+			$mysqli_access = mysqli_connect($dbhost, $dbuser, $dbpass);
+			if (!$mysqli_access)
 			{
 				$output .= write_message(_CONFIGFAILED);
 			}
 		}
-		if (isset($_POST['submit']) && $mysql_access)
+		if (isset($_POST['submit']) && $mysqli_access)
 		{
 			$handle = fopen("../config.php", 'w');
 			if (!$handle)
@@ -1016,7 +1016,7 @@ if(!empty(\$sitekey)) \$dbconnect = dbconnect(\$dbhost, \$dbuser,\$dbpass, \$dbn
 		}
 		else
 		{
-			if (file_exists("../config.php") && !isset($mysql_access)) include("../config.php");
+			if (file_exists("../config.php") && !isset($mysqli_access)) include("../config.php");
 			if (isset($tinyMCE)) $output .= write_message(_CONFIG2DETECTED);
 			else if (isset($sitename) && $sitename) $output .= write_message(_CONFIG1DETECTED);
 			else

@@ -18,14 +18,14 @@ function dbconnect($dbhost, $dbuser, $dbpass, $dbname ) {
 function dbquery($query) {
 	global $debug, $headerSent, $dbconnect;
 	if($debug && $headerSent) echo "<!-- $query -->\n";
-	$result = $dbconnect->query($query) or accessDenied( _FATALERROR.(isADMIN ? "Query: ".$query."<br />Error: (".$dbconnect->mysqli_errno.") ".$dbconnect->mysqli_error : ""));
+	$result = $dbconnect->query($query) or accessDenied( _FATALERROR.(isADMIN ? "Query: ".$query."<br />Error: (".$dbconnect->errno.") ".$dbconnect->error : ""));
 	return $result;
 }
 
 function dbnumrows($query) {
 	global $debug, $dbconnect;
 	if ($query === false && $debug) {
-		echo "<!-- dbnumrows ".$dbconnect->mysqli_error." -->\n";
+		echo "<!-- dbnumrows ".$dbconnect->error." -->\n";
 	}
 	return $query->num_rows;
 }
@@ -33,7 +33,7 @@ function dbnumrows($query) {
 function dbassoc($query) {
 	global $debug, $dbconnect;
 	if ($query === false && $debug) {
-		echo "<!-- dbassoc ".$dbconnect->mysqli_error." -->\n";
+		echo "<!-- dbassoc ".$dbconnect->errno." -->\n";
 	}
 	return $query->fetch_assoc();
 }
@@ -46,7 +46,7 @@ function dbinsertid($tablename = 0) {
 function dbrow($query) {
 	global $debug, $dbconnect;
 	if ($query === false && $debug) {
-		if($error) echo "<!-- dbrow ".$dbconnect->mysqli_error." -->\n";
+		if($dbconnect->error) echo "<!-- dbrow ".$dbconnect->errno." -->\n";
 	}
 	return $query->fetch_row();
 }
