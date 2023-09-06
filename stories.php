@@ -791,7 +791,8 @@ function editstory($sid) {
 			list($authors) = dbrow(dbquery("SELECT COUNT(uid) FROM ".TABLEPREFIX."fanfiction_authorprefs WHERE stories > 0"));
 			dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats set wordcount = '$words', chapters = '$chapters', authors = '$authors'");
 
-			$updatequery = dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET title = '".addslashes($title)."', summary = '".addslashes(format_story($summary))."', storynotes = '".addslashes(format_story($storynotes))."', rr = '".($rr ? 1 : 0)."', completed = '".($complete ? 1 : 0)."', validated = '$validated', rid = '$rid', classes = '".(is_array($classes) ? implode(",", $classes) : $classes)."', charid = '".(is_array($charid) ? implode(",", $charid) : $charid)."', catid = '".(is_array($catid) ? implode(",", $catid) : $catid)."', coauthors = '".(is_array($coauthors) ? implode(",", $coauthors) : $coauthors)."', featured = '$feat' WHERE sid = '$sid'");
+			$updatequery = dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET title = '".addslashes($title)."', summary = '".addslashes(format_story($summary))."', storynotes = '".addslashes(format_story($storynotes))."', rr = '".($rr ? 1 : 0)."', completed = '".($complete ? 1 : 0)."', validated = '$validated', rid = '$rid', classes = '".(is_array($classes) ? implode(",", $classes) : $classes)."', charid = '".(is_array($charid) ? implode(",", $charid) : $charid)."', catid = '".(is_array($catid) ? implode(",", $catid) : $catid)."', coauthors = '".$coauthors."', featured = '$feat' WHERE sid = '$sid'");
+		 
 			$clist = array( );
 			$coauths = dbquery("SELECT uid FROM ".TABLEPREFIX."fanfiction_coauthors WHERE sid = '$sid'");
 			while($c = dbassoc($coauths)) {
