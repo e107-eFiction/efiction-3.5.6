@@ -254,7 +254,6 @@ CREATE TABLE `fanfiction_inseries` (
   `subseriesid` int(11) NOT NULL default '0',
   `confirmed` int(11) NOT NULL default '0',
   `inorder` int(11) NOT NULL default '0',
-  `updated` int(11) NOT NULL default '0',
   PRIMARY KEY  (`sid`,`seriesid`),
   KEY `seriesid` (`seriesid`,`inorder`)
 ) REPLACE=MyISAM;
