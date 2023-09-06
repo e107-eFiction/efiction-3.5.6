@@ -24,8 +24,10 @@
 
 $current = "stories";
 
-if($_GET['action'] != "newchapter") $displayform = 1;
-if($_GET['action'] == "newstory" || $_GET['action'] == "editstory") $current = "addstory";
+if(isset($_GET['action'])) {
+	if($_GET['action'] != "newchapter") $displayform = 1;
+	if($_GET['action'] == "newstory" || $_GET['action'] == "editstory") $current = "addstory";
+}
 
 include ("header.php");
 
