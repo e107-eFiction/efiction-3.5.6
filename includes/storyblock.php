@@ -38,7 +38,7 @@ if(!defined("_CHARSET")) exit( );
 	$tpl->assign("title"   , stripslashes(title_link($stories)) );
 	$tpl->assign("author"   , author_link($stories));
 	$tpl->assign("summary", stripslashes($stories['summary']) );
-	$tpl->assign("rating"   , $ratingslist[$stories['rid']]['name']);
+	$tpl->assign("rating"   , !empty($ratingslist) ? $ratingslist[$stories['rid']]['name'] : "");
 	$tpl->assign("score", ratingpics($stories['rating']) );
 	$tpl->assign("count", $stories['count'] ? $stories['count'] : "0");
 	$allclasslist = "";
