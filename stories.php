@@ -48,16 +48,16 @@ include("includes/storyform.php");
 			if($result) list($sid, $author) = dbrow($result);
 		}
 		if(isset($sid)) {
-			$coauthors = array( );
+			$array_coauthors = array( );
 			$authorquery = dbquery("SELECT uid, rr, coauthors FROM ".TABLEPREFIX."fanfiction_stories WHERE sid='$sid' LIMIT 1");
 			$story = dbassoc($authorquery);
 			if($story['coauthors']) {
 				$cQuery = dbquery("SELECT uid FROM ".TABLEPREFIX."fanfiction_coauthors WHERE sid = '$sid'");
 				while($c = dbassoc($cQuery)) {
-					$coauthors[] = $c['uid'];
+					$array_coauthors[] = $c['uid'];
 				}
 			}
-			if($story['uid'] != USERUID && (is_array($coauthors) && !in_array(USERUID, $coauthors)) && !$story['rr']) accessDenied( );
+			if($story['uid'] != USERUID && (is_array($array_coauthors) && !in_array(USERUID, $array_coauthors)) && !$story['rr']) accessDenied( );
 		}
 	}
 	else if(isADMIN && uLEVEL < 4 && isset($_GET['admin'])) {
@@ -139,7 +139,7 @@ function newstory( ) {
 	$storynotes = isset($_POST['storynotes']) ? descript(strip_tags($_POST['storynotes'], $allowed_tags)) : "";
 	$catid = isset($_POST['catid']) ? array_filter(explode(",", $_POST['catid']), "isNumber") : array( );
 	$charid = isset($_POST['charid']) ? array_filter($_POST['charid'], "isNumber") : array( );
-	$coauthors = isset($_POST['coauthors']) ? array_filter(explode(",", $_POST['coauthors']), "isNumber") : array( );
+	$array_coauthors = isset($_POST['coauthors']) ? array_filter(explode(",", $_POST['coauthors']), "isNumber") : array( );
 	$classes = array( );
 	$classquery = dbquery("SELECT * FROM ".TABLEPREFIX."fanfiction_classtypes");
 	while($type = dbassoc($classquery)) {
@@ -178,8 +178,8 @@ function newstory( ) {
 	$words_to_count = trim($words_to_count);
 	$wordcount = count(explode(" ",$words_to_count)); 
 	$au[] = $uid;
-	if(count($coauthors)) {
-		$au = array_merge($au, $coauthors);
+	if(count($array_coauthors)) {
+		$au = array_merge($au, $array_coauthors);
 		$coauthors = 1;
 	}
 	else $coauthors = 0;
@@ -273,7 +273,7 @@ function newstory( ) {
 			else $output .= write_error(_FATALERROR." "._TRYAGAIN);
 		}
 		if(!$newchapter) {
-			if(count($coauthors)) {
+			if(count($array_coauthors)) {
 				foreach($au AS $c) {
 					if($c == $uid) continue;
 					dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_coauthors(`sid`, `uid`) VALUES('$sid', '$c')");
@@ -634,7 +634,7 @@ function editstory($sid) {
 		$rid = isset($_POST['rid']) && isNumber($_POST['rid']) ? $_POST['rid'] : 0;
 		$catid = isset($_POST['catid']) ? array_filter(explode(",", $_POST['catid']), "isNumber") : array( );
 		$charid = isset($_POST['charid']) ? array_filter($_POST['charid'], "isNumber") : array( );
-		$coauthors = isset($_POST['coauthors']) ? array_filter(explode(",", $_POST['coauthors']), "isNumber") : array( );
+		$array_coauthors = isset($_POST['coauthors']) ? array_filter(explode(",", $_POST['coauthors']), "isNumber") : array( );
 		if(isset($_POST['uid']) && isNumber($_POST['uid'])) $uid = $_POST['uid'];
 		else $uid = USERUID;
 		$classes = array( );
@@ -647,8 +647,8 @@ function editstory($sid) {
 		}
 		if(!$admin && $authorvalid && !$validated) $validated = 2;
 		$au[] = $uid;
-		if(count($coauthors)) {
-			$au = array_merge($au, $coauthors);
+		if(count($array_coauthors)) {
+			$au = array_merge($au, $array_coauthors);
 			$coauthors = 1;
 		}
 		else $coauthors = 0;

@@ -164,10 +164,10 @@ else if($action == "edit" || $action == "add") {
 				$uidquery = dbquery("SELECT uid,title, coauthors FROM ".TABLEPREFIX."fanfiction_stories WHERE sid = '$item'");
 				list($author, $title, $coauthors) = dbrow($uidquery);
 				if($coauthors) {
-					$coauthors = array( );
+					$array_coauthors = array( );
 					$coQuery = dbquery("SELECT uid FROM ".TABLEPREFIX."fanfiction_coauthors WHERE sid = '$item'");
 					while($c = dbassoc($coQuery)) {
-						$coauthors[] = $c['uid'];
+						$array_coauthors[] = $c['uid'];
 					}
 				}
 			}
@@ -186,7 +186,7 @@ else if($action == "edit" || $action == "add") {
 				}
 			}
 			if($review != "No Review" && $action == "add") {
-				$mailquery= dbquery("SELECT ap.newreviews,"._EMAILFIELD." as email, "._PENNAMEFIELD." as penname FROM "._AUTHORTABLE." LEFT JOIN ".TABLEPREFIX."fanfiction_authorprefs as ap ON ap.uid = "._UIDFIELD." WHERE "._UIDFIELD." = '$author' ".(!empty($coauthors) ? " OR ".findclause(_UIDFIELD, $coauthors) : ""));
+				$mailquery= dbquery("SELECT ap.newreviews,"._EMAILFIELD." as email, "._PENNAMEFIELD." as penname FROM "._AUTHORTABLE." LEFT JOIN ".TABLEPREFIX."fanfiction_authorprefs as ap ON ap.uid = "._UIDFIELD." WHERE "._UIDFIELD." = '$author' ".(!empty($coauthors) ? " OR ".findclause(_UIDFIELD, $array_coauthors) : ""));
 				while($mail = dbassoc($mailquery)) {
 					if($mail['newreviews']) {
 						include_once("includes/emailer.php");
@@ -247,10 +247,11 @@ else {
 		$story = dbassoc($storyquery);
 		$title = title_link($story);
 		$authoruid = $story['uid'];
+		$array_coauthors = array();
 		if(!empty($story['coauthors'])) {
 			$colist = dbquery("SELECT uid FROM ".TABLEPREFIX."fanfiction_coauthors WHERE sid = '$item'");
 			while($c = dbassoc($colist)) {
-				$coauthors[] = $c['uid'];
+				$array_coauthors[] = $c['uid'];
 			}
 		}
 	}
@@ -379,7 +380,7 @@ else {
 			$reviewer = $reviews['reviewer'];
 			$member = _ANONYMOUS;
 		}
-		if(empty($reviews['respond']) && (USERUID == $authoruid || (isset($coauthors) && in_array(USERUID, $coauthors)))) $adminlink .= " [<a href=\"user.php?action=revres&amp;reviewid=".$reviews['reviewid']."\">"._RESPOND."</a>]";
+		if(empty($reviews['respond']) && (USERUID == $authoruid || (isset($array_coauthors) && in_array(USERUID, $array_coauthors)))) $adminlink .= " [<a href=\"user.php?action=revres&amp;reviewid=".$reviews['reviewid']."\">"._RESPOND."</a>]";
 		$tpl->newBlock("reviewsblock");
 		$tpl->assign("reviewer"   , $reviewer );
 		$tpl->assign("reportthis", "[<a href=\""._BASEDIR."contact.php?action=report&amp;url=reviews.php?reviewid=".$reviews['reviewid']."\">"._REPORTTHIS."</a>]");

@@ -35,13 +35,13 @@ if(empty($chapter)) $chapter = isset($_GET['chapter']) && isNumber($_GET['chapte
 	$storyquery = dbquery("SELECT "._PENNAMEFIELD." as penname, "._UIDFIELD." as uid, story.*, story.date as date, story.updated as updated, story.validated as valid FROM ".TABLEPREFIX."fanfiction_stories as story, "._AUTHORTABLE." WHERE story.sid = '".$sid."' AND story.uid = "._UIDFIELD);
 	$storyinfo = dbassoc($storyquery);
 	if($storyinfo['coauthors'] == 1) {
-		$coauthors = array();
+	$array_coauthors = array();
 		$coauth = dbquery("SELECT "._PENNAMEFIELD." as penname, co.uid FROM ".TABLEPREFIX."fanfiction_coauthors AS co LEFT JOIN "._AUTHORTABLE." ON co.uid = "._UIDFIELD." WHERE co.sid = '".$sid."'");
 		while($c = dbassoc($coauth)) {
-			$coauthors[$c['uid']] = $c['penname'];
+		$array_coauthors[$c['uid']] = $c['penname'];
 		}
-		$storyinfo['coauthors'] = $coauthors;
-		unset($coauthors);
+		$storyinfo['coauthors'] = $array_coauthors;
+		unset($array_coauthors);
 	}
 	else $storyinfo['coauthors'] = array();
 	//  Check that the story is valid and that the visitor has permissions to read this story

@@ -26,13 +26,13 @@ if(!defined("_CHARSET")) exit( );
 	$tpl->assign("sid", $stories['sid']);
 	unset($challengelinks, $challengeadmin, $serieslinks, $categorylinks, $adminlinks, $authlink);
 	if($stories['coauthors'] == 1) {
-		$coauthors = array();
+		$array_coauthors = array();
 		$coauth = dbquery("SELECT "._PENNAMEFIELD." as penname, co.uid FROM ".TABLEPREFIX."fanfiction_coauthors AS co LEFT JOIN "._AUTHORTABLE." ON co.uid = "._UIDFIELD." WHERE co.sid = '".$stories['sid']."'");
 		while($c = dbassoc($coauth)) {
-			$coauthors[$c['uid']] = $c['penname'];
+			$array_coauthors[$c['uid']] = $c['penname'];
 		}
-		$stories['coauthors'] = $coauthors;
-		unset($coauthors);
+		$stories['coauthors'] = $array_coauthors;
+		unset($array_coauthors);
 	}
 	else if(empty($stories['coauthors'])) $stories['coauthors'] = array( );	
 	$tpl->assign("title"   , stripslashes(title_link($stories)) );

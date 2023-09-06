@@ -67,13 +67,14 @@ if(!defined("_CHARSET")) exit( );
 			}
 		}
 		$user = dbassoc(dbquery($query2));
+		$array_coauthors = array();
 		if(!empty($user['coauthors'])) {
 			$coQuery = dbquery("SELECT uid FROM ".TABLEPREFIX."fanfiction_coauthors WHERE sid = '".$reviews['item']."'");
 			while($c = dbassoc($coQuery)) {
-				$coauthors[] = $c['uid'];
+				$array_coauthors[] = $c['uid'];
 			}
 		}
-		if(USERUID == $user['uid'] || (!empty($user['coauthors']) && in_array(USERUID, $coauthors))) {
+		if(USERUID == $user['uid'] || (!empty($user['coauthors']) && in_array(USERUID, $array_coauthors))) {
 			if($type == "ST") {
 				$storyquery = dbquery("SELECT s.title, s.uid, r.rid, r.rating, r.ratingwarning, r.warningtext, s.sid FROM ".TABLEPREFIX."fanfiction_stories as s, ".TABLEPREFIX."fanfiction_ratings as r WHERE s.sid = '".$reviews['item']."' AND s.rid = r.rating LIMIT 1");
 				$story = dbassoc($storyquery);

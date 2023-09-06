@@ -35,6 +35,7 @@ if(!empty($favorites) && isMEMBER && $userinfo['uid'] != USERUID) {
 	$fav = dbquery("SELECT * FROM ".TABLEPREFIX."fanfiction_favorites WHERE uid = '".USERUID."' AND type = 'AU' AND item = '".$userinfo['uid']."'");
 	if(dbnumrows($fav) == 0) $nameinfo .= " [<a href=\"user.php?action=favau&amp;uid=".USERUID."&amp;add=".$userinfo['uid']."\">"._ADDAUTHOR2FAVES."</a>]";
 }
+ 
 $tpl->assign("userpenname", $userinfo['penname']." ".$nameinfo);
 $tpl->assign("membersince", date("$dateformat", $userinfo['date']));
 if($userinfo['realname'])
