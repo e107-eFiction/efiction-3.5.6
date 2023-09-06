@@ -36,6 +36,8 @@ if(empty($favorites)) accessDenied( );
 	$edit = isset($_GET['edit']) && isNumber($_GET['edit']) ? $_GET['edit'] : false;
 	$author = explode(",", $add);
 	$author = array_filter($author, "isNumber");
+	$array_pennames = array();
+	$pennames = '';
 	if(($add || $edit || $delete) && !isMEMBER) accessDenied( );
 
 	if(isMEMBER && $uid == USERUID) {
@@ -69,9 +71,9 @@ if(empty($favorites)) accessDenied( );
 				else {
 					$pQuery = dbquery("SELECT "._PENNAMEFIELD." as penname FROM "._AUTHORTABLE." WHERE ".findclause(_UIDFIELD, $author));
 					while($pRes = dbassoc($pQuery)) {
-						$pennames[] = $pRes['penname'];
+						$array_pennames[] = $pRes['penname'];
 					}
-					$pennames = implode(", ", $pennames);
+					$pennames = implode(", ", $array_pennames);
 				}
 				$output = "<div class='sectionheader'>"._ADDTOFAVORITES.": ".$pennames."</div>";
 			}
@@ -86,9 +88,9 @@ if(empty($favorites)) accessDenied( );
 					$author = array($edit);
 					$pQuery = dbquery("SELECT "._PENNAMEFIELD." as penname FROM "._AUTHORTABLE." WHERE ".findclause(_UIDFIELD, $author));
 					while($pRes = dbassoc($pQuery)) {
-						$pennames[] = $pRes['penname'];
+						$array_pennames[] = $pRes['penname'];
 					}
-					$pennames = implode(", ", $pennames);
+					$pennames = implode(", ", $array_pennames);
 					$output .= "<div class='sectionheader'>"._ADDTOFAVORITES.": ".$pennames."</div>";
 				}
 			}
