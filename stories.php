@@ -440,7 +440,9 @@ function viewstories( ) {
 	}
 	$output .= "<p style=\"text-align: right; margin: 1em;\"><a href=\"stories.php?action=viewstories&amp;chapters=".($hidechapters != "view" ? "view\">"._VIEWCHAPTERS : "hide\">"._HIDECHAPTERS)."</a></p>
 		<div style=\"width: 90%; margin: 0 auto;\"><table cellpadding=\"3\" cellspacing=\"0\" width=\"100%\" class=\"tblborder\"><tr><th class=\"tblborder\">"._STORIES."</th><th colspan=\"3\" class=\"tblborder\">"._OPTIONS."</th>".($reviewsallowed ? "<th class=\"tblborder\">"._REVIEWS."</th>" : "").($autovalidate ? "" : "<th class=\"tblborder\">"._VALIDATED."</th>")."<th class=\"tblborder\">"._READS."</th></tr>";
-	$sresult = dbquery("SELECT stories.sid, title, reviews, rating, completed, validated, featured, count FROM ".TABLEPREFIX."fanfiction_stories AS stories LEFT JOIN ".TABLEPREFIX."fanfiction_coauthors AS coauth ON stories.sid = coauth.sid WHERE stories.uid = '".USERUID."' OR coauth.uid = '".USERUID."' ORDER BY title");
+	
+	$squery = "SELECT stories.sid, title, reviews, rating, completed, validated, featured, count FROM " . TABLEPREFIX . "fanfiction_stories AS stories LEFT JOIN " . TABLEPREFIX . "fanfiction_coauthors AS coauth ON stories.sid = coauth.sid WHERE stories.uid = '" . USERUID . "' OR coauth.uid = '" . USERUID . "' GROUP BY stories.sid ORDER BY title ";
+	$sresult = dbquery($squery); 
 	$stories = dbnumrows($sresult);
 	while($story = dbassoc($sresult)) {
 		$query2 = dbquery("SELECT chapid, title, inorder, rating, reviews, validated, count FROM ".TABLEPREFIX."fanfiction_chapters WHERE sid = '".$story['sid']."' ORDER BY inorder"); 
@@ -824,7 +826,7 @@ function editstory($sid) {
 			exit( );
 		}
 	}
-	$query = dbquery("SELECT DATE_FORMAT(date, '$dateformat') as date, wordcount, uid FROM ".TABLEPREFIX."fanfiction_stories WHERE sid = '$sid' LIMIT 1");
+	$query = dbquery("SELECT DATE_FORMAT(FROM_UNIXTIME(date), '$dateformat') as date, wordcount, uid FROM ".TABLEPREFIX."fanfiction_stories WHERE sid = '$sid' LIMIT 1");
 	list($published, $wordcount, $storyuid) = dbrow($query);
 	$formbegin = "<div class=\"tblborder\" style=\"margin: 10px auto; width: 550px; padding: 10px;\">
 		<form METHOD=\"POST\" name=\"form\" action=\"stories.php?action=editstory".($admin ? "&amp;admin=1" : "")."&amp;sid=$sid\">";
