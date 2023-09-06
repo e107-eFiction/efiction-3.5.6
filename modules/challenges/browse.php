@@ -63,7 +63,7 @@ else include_once(_BASEDIR."modules/challenges/languages/en.php");
 
 
 	$count = dbquery("SELECT count(chalid) FROM ".TABLEPREFIX."fanfiction_challenges as chal $chalquery");
-	$query = "SELECT chal.* FROM ".TABLEPREFIX."fanfiction_challenges as chal $chalquery ORDER BY title LIMIT $offset, $itemsperpage";
+	$query = "SELECT chal.* FROM ".TABLEPREFIX."fanfiction_challenges as chal $chalquery ORDER BY chalid DESC LIMIT $offset, $itemsperpage";
 
 	list($numrows) = dbrow($count);
 	if($numrows > 0) {
