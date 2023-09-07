@@ -63,7 +63,7 @@ for ($i = 0; $i < 5; $i++) {
  $x = $x + mt_rand(16, 24);
  $y = mt_rand(26, 32); 
  $angle = mt_rand(-15, 15);
- $c = $ccolor[$i];
+ $c = $color[$i];
  $fnt = mt_rand(0, sizeof($fontList) - 1);
  $colori = $rColors[$i];
  imagettftext($image, mt_rand(20, 24), $angle,  $x, $y, $colori, $fontList[$fnt], $cnum[$i]); 
