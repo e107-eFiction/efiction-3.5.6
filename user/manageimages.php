@@ -88,7 +88,7 @@ class multi_upfiles extends file_upload {
 	}
 	function upload_multi_files () {
 		global $output, $imageheight, $imagewidth; 
-		$this->message = "";
+		$this->message = array();
 		if ($this->count_files()) {
 			foreach ($this->names_array as $key => $value) { 
 				if ($value != "") {
