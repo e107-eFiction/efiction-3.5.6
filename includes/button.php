@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(-1);
 
 session_start();
 define("_BASEDIR", "../");
@@ -56,7 +59,6 @@ for( $i=0; $i<(140*40)/3; $i++ ) {
   imagefilledellipse($image, mt_rand(0,140), mt_rand(0,40), 1, 1, $gray);
 }
 
-
 for ($i = 0; $i < 5; $i++) {
  $x = $x + mt_rand(16, 24);
  $y = mt_rand(26, 32); 
@@ -67,12 +69,11 @@ for ($i = 0; $i < 5; $i++) {
  imagettftext($image, mt_rand(20, 24), $angle,  $x, $y, $colori, $fontList[$fnt], $cnum[$i]); 
 
 }
-
-
+ 
 $digit = "$cnum[0]$cnum[1]$cnum[2]$cnum[3]$cnum[4]";
 
 $_SESSION[$sitekey.'_digit'] = md5($sitekey.$digit);
-
+ 
 header("Expires: Tue, 11 Jun 1985 05:00:00 GMT");  
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");  
 header("Cache-Control: no-store, no-cache, must-revalidate");  
