@@ -23,7 +23,7 @@ If you have source code of missing and used modules, share it and I can try to a
 No change
 
 ### Update
-Classic as before, run update process that should change your date fields without lossing your data.
+Classic as before, run update process that should change your date fields without lossing your data. It works only for update from 3.5.5, not sooner.
 
 
 
