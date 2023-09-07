@@ -27,7 +27,7 @@ Classic as before, run update process that should change your date fields withou
 
 
 
-
+<code>
 // ----------------------------------------------------------------------
 // Copyright (c) 2007 by Tammy Keefer
 // Based on eFiction 1.1
@@ -50,4 +50,4 @@ Classic as before, run update process that should change your date fields withou
 // ----------------------------------------------------------------------
 
 see more in README.txt file
-
+</code>
