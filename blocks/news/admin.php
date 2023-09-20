@@ -1,5 +1,6 @@
 <?php
 if(!defined("_CHARSET")) exit( );
+ 
 $blockquery = dbquery("SELECT * FROM ".TABLEPREFIX."fanfiction_blocks WHERE block_name = 'news'");
 while($block = dbassoc($blockquery)) {
 	if ($block['block_variables'])
@@ -11,6 +12,10 @@ while($block = dbassoc($blockquery)) {
 	$blocks[$block['block_name']]['status'] = $block['block_status'];
 }
 global $language, $numupdated;
+
+if (file_exists(_BASEDIR . "blocks/news/" . $language . ".php")) include(_BASEDIR . "blocks/news/" . $language . ".php");
+else include(_BASEDIR . "blocks/news/en.php");
+
 include("blocks/".$blocks['news']['file']);
 	if(isset($_POST['submit'])) {
 		if(isset($_POST['num']) && isNumber($_POST['num'])) $blocks['news']['num'] = $_POST['num'];

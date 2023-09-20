@@ -24,7 +24,7 @@
 // ----------------------------------------------------------------------
 
 if(!defined("_CHARSET")) exit( );
-
+ 
 	if(isset($blocks['news']['num'])) $numupdated = $blocks['news']['num'];
 	else $numupdated = 1;
 	if(file_exists("$skindir/newsbox.tpl")) $news = new TemplatePower( "$skindir/newsbox.tpl" );
@@ -41,7 +41,7 @@ if(!defined("_CHARSET")) exit( );
 		$news->newBlock("newsbox");
 		
 		//assign values
-		if(!empty($blocks['news']['sumlength']) && isNumber($blocks['news']['sumlength'])) $newsStory = truncate_text($stories['story'], $blocks['news']['sumlength'])."<div class='newsReadMore'><a href='news.php?action=newsstory&amp;nid=".$stories['nid']."'>"._READMORE."</a></div>";
+		if(!empty($blocks['news']['sumlength']) && isNumber($blocks['news']['sumlength'])) $newsStory = truncate_text($stories['story'], $blocks['news']['sumlength'])."<div class='newsReadMore'><a href='blog.php?action=newsstory&amp;nid=".$stories['nid']."'>"._READMORE."</a></div>";
 		else $newsStory = format_story($stories['story']);
 		$news->assign("newstitle" , $stories['title'] );
 		$news->assign("newsstory" , $newsStory);
@@ -51,7 +51,7 @@ if(!defined("_CHARSET")) exit( );
 		$news->assign("newsid", $stories['nid']);
 		$news->assign("skindir", $skindir);
 		if($newscomments)
-			$news->assign("newscomments", "<a href=\"news.php?action=newsstory&amp;nid=".$stories['nid']."\">".$stories['comments']." "._COMMENTS."</a>");
+			$news->assign("newscomments", "<a href=\"blog.php?action=newsstory&amp;nid=".$stories['nid']."\">".$stories['comments']." "._COMMENTS."</a>");
 		if(isADMIN) 
 			$news->assign("adminoptions", "<a href=\"admin.php?action=news&amp;form=".$stories['nid']."\">"._EDIT."</a> | <a href=\"admin.php?action=news&amp;delete=".$stories['nid']."\">"._DELETE."</a>");
 		$count++;

@@ -26,6 +26,6 @@
 if(!defined("_CHARSET")) exit( );
 
 
-dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_blocks(`block_name`, `block_title`, `block_status`, `block_file`, `block_variables`) VALUES('news', 'Site News', '0', 'news/news.php', '');");
+dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_blocks(`block_name`, `block_title`, `block_status`, `block_file`, `block_variables`) VALUES('news', 'Site News', '0', 'news/blog.php', '');");
 $blocks["news"] = array("title" => "Site News", "status" => "1", "file" => "news/news.php", "num" => "3");
 ?>
